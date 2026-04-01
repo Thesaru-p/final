@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Why Join IEEE - Mind Map</title>
   
-  <!-- Cyberpunk Fonts: Orbitron (Headings) & Rajdhani (Body) -->
+  <!-- Modern Clean Fonts: Montserrat (Headings) & Inter (Body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   
   <style>
     :root {
@@ -16,6 +16,7 @@
       --navy-blue: #0d2b5e; /* Dark navy blue for lines and boxes */
       --navy-blue-bg: rgba(13, 43, 94, 0.2); 
       --neon-blue: #00aaff;
+      --neon-hover: #ffffff; /* White neon light for hover state */
       --text-main: #ffffff;
       --text-sub: #b0c4de;
     }
@@ -25,23 +26,16 @@
       padding: 0;
       background-color: var(--bg-color);
       color: var(--text-main);
-      font-family: 'Rajdhani', sans-serif;
+      font-family: 'Inter', sans-serif;
       overflow-x: auto;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-
-      /* Subtle Cyberpunk/Tech background texture */
-      background-image: 
-        radial-gradient(circle at center, rgba(0, 170, 255, 0.05) 0%, transparent 60%),
-        linear-gradient(rgba(13, 43, 94, 0.4) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(13, 43, 94, 0.4) 1px, transparent 1px);
-      background-size: 100% 100%, 40px 40px, 40px 40px;
     }
 
     h1, h2, h3, h4 {
-      font-family: 'Orbitron', sans-serif;
+      font-family: 'Montserrat', sans-serif;
     }
 
     .mindmap-section {
@@ -164,55 +158,86 @@
 
     /* Glow Effect on Hovered Card */
     .card:hover {
-      border-color: var(--neon-blue);
-      box-shadow: 0 0 25px rgba(0, 170, 255, 0.4), inset 0 0 15px rgba(0, 170, 255, 0.15);
+      border-color: var(--neon-hover);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2), inset 0 0 8px rgba(255, 255, 255, 0.1);
       transform: translate(-50%, -50%) scale(1.05); /* Cyberpunk pop slightly off the grid */
       z-index: 10;
     }
 
     .card:hover h3 {
-      color: var(--neon-blue);
-      text-shadow: 0 0 12px rgba(0, 170, 255, 0.8);
+      color: var(--neon-hover);
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
     }
     
     .card:hover p {
       color: #fff;
     }
 
-    /* Neon Path Stroke & Drop Shadow for specific lines depending on which card is hovered */
+    @keyframes flowCurrent {
+      from { stroke-dashoffset: 40; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    .pulse {
+      fill: none;
+      stroke: transparent;
+      stroke-width: 5px;
+      pointer-events: none;
+      stroke-linecap: round;
+    }
+
+    /* Base continuous line glow on hover */
     .mindmap-wrapper:has(.card-1:hover) .line-1,
     .mindmap-wrapper:has(.card-2:hover) .line-2,
     .mindmap-wrapper:has(.card-3:hover) .line-3,
     .mindmap-wrapper:has(.card-4:hover) .line-4,
     .mindmap-wrapper:has(.card-5:hover) .line-5 {
-      stroke: var(--neon-blue);
-      /* drop-shadow + stroke highlight */
-      filter: drop-shadow(0 0 10px var(--neon-blue));
-      stroke-width: 5px;
+      stroke: rgba(255, 255, 255, 0.3);
+      filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
+      stroke-width: 4px;
       z-index: 5;
+    }
+
+    /* Simulated Flowing Current over the continuous line */
+    .mindmap-wrapper:has(.card-1:hover) .pulse-1,
+    .mindmap-wrapper:has(.card-2:hover) .pulse-2,
+    .mindmap-wrapper:has(.card-3:hover) .pulse-3,
+    .mindmap-wrapper:has(.card-4:hover) .pulse-4,
+    .mindmap-wrapper:has(.card-5:hover) .pulse-5 {
+      stroke: var(--neon-hover);
+      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
+      stroke-dasharray: 15 25; /* Dense energetic flow */
+      animation: flowCurrent 0.5s linear infinite;
+      z-index: 6;
     }
 
     /* Optional interaction if user hovers the center card directly */
     .mindmap-wrapper:has(.center-card:hover) .line {
-      stroke: var(--neon-blue);
-      filter: drop-shadow(0 0 6px rgba(0, 170, 255, 0.6));
-      opacity: 0.8;
+      stroke: rgba(255, 255, 255, 0.3);
+      filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
+    }
+
+    .mindmap-wrapper:has(.center-card:hover) .pulse {
+      stroke: var(--neon-hover);
+      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+      stroke-dasharray: 15 25;
+      animation: flowCurrent 0.8s linear infinite;
     }
     
     .mindmap-wrapper:has(.center-card:hover) .card {
-      border-color: rgba(0, 170, 255, 0.5);
-      box-shadow: 0 0 15px rgba(0, 170, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
     }
     
     .center-card:hover {
-      border-color: var(--neon-blue);
-      box-shadow: 0 0 45px rgba(0, 170, 255, 0.5), inset 0 0 25px rgba(0, 170, 255, 0.2);
+      border-color: var(--neon-hover);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
       transform: translate(-50%, -50%) scale(1.02);
     }
     
     .center-card:hover h1 {
-      color: var(--neon-blue);
-      text-shadow: 0 0 15px rgba(0, 170, 255, 0.6);
+      color: var(--neon-hover);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     }
 
   </style>
@@ -227,18 +252,23 @@
         
         <!-- Top Center Node Path -->
         <path class="line line-1" d="M 600 350 L 600 120" />
+        <path class="pulse pulse-1" d="M 600 350 L 600 120" />
         
         <!-- Mid Right Node Path -->
         <path class="line line-2" d="M 680 400 C 820 400, 820 320, 1020 320" />
+        <path class="pulse pulse-2" d="M 680 400 C 820 400, 820 320, 1020 320" />
         
         <!-- Bottom Right Node Path -->
         <path class="line line-3" d="M 680 400 C 820 400, 820 640, 900 640" />
+        <path class="pulse pulse-3" d="M 680 400 C 820 400, 820 640, 900 640" />
         
         <!-- Bottom Left Node Path -->
         <path class="line line-4" d="M 520 400 C 380 400, 380 640, 300 640" />
+        <path class="pulse pulse-4" d="M 520 400 C 380 400, 380 640, 300 640" />
         
         <!-- Mid Left Node Path -->
         <path class="line line-5" d="M 520 400 C 380 400, 380 320, 180 320" />
+        <path class="pulse pulse-5" d="M 520 400 C 380 400, 380 320, 180 320" />
       </svg>
 
       <!-- Center Master Node -->
