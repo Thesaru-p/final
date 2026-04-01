@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why Join IEEE - Mind Map</title>
+  
+  <!-- Cyberpunk Fonts: Orbitron (Headings) & Rajdhani (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #050a14;
+      --navy-blue: #0d2b5e; /* Dark navy blue for lines and boxes */
+      --navy-blue-bg: rgba(13, 43, 94, 0.2); 
+      --neon-blue: #00aaff;
+      --text-main: #ffffff;
+      --text-sub: #b0c4de;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      overflow-x: auto;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      /* Subtle Cyberpunk/Tech background texture */
+      background-image: 
+        radial-gradient(circle at center, rgba(0, 170, 255, 0.05) 0%, transparent 60%),
+        linear-gradient(rgba(13, 43, 94, 0.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(13, 43, 94, 0.4) 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px, 40px 40px;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .mindmap-section {
+      width: 100%;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Fixed aspect ratio container that perfectly scales the SVG paths alongside %-based absolute positioned HTML elements */
+    .mindmap-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      min-width: 900px; /* Forces scroll on very small screens instead of breaking the layout */
+      aspect-ratio: 1.5; /* 1200 width / 800 height */
+    }
+
+    /* SVG Lines Container */
+    .connections {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none; /* Prevents SVG from blocking pointer events on cards underneath */
+      z-index: 1;
+    }
+
+    .line {
+      fill: none;
+      stroke: var(--navy-blue);
+      stroke-width: 4px;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Feature Cards */
+    .card {
+      position: absolute;
+      transform: translate(-50%, -50%); /* Centers the card over the exact point defined by left/top */
+      background: var(--navy-blue-bg);
+      border: 2px solid var(--navy-blue);
+      border-radius: 8px;
+      padding: 24px;
+      width: 250px;
+      text-align: center;
+      z-index: 2;
+      cursor: pointer;
+      backdrop-filter: blur(8px); /* Tech glassmorphism */
+      -webkit-backdrop-filter: blur(8px);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    }
+
+    .card h3 {
+      margin: 0 0 12px 0;
+      color: var(--text-main);
+      font-size: 1.25rem;
+      letter-spacing: 1.5px;
+      transition: color 0.4s ease;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 1.05rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    /* Center Main Card */
+    .center-card {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg-color);
+      border: 2px solid var(--navy-blue);
+      border-radius: 6px;
+      padding: 30px 40px;
+      text-align: center;
+      z-index: 3;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(13, 43, 94, 0.8);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .center-card h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      line-height: 1.2;
+    }
+
+    /* -------------------------------------------
+       HOVER & FOCUS LOGIC (Pure CSS via :has) 
+       ------------------------------------------- */
+
+    /* Dimming elements when ANY card is hovered */
+    .mindmap-wrapper:has(.card-1:hover) .card:not(.card-1),
+    .mindmap-wrapper:has(.card-2:hover) .card:not(.card-2),
+    .mindmap-wrapper:has(.card-3:hover) .card:not(.card-3),
+    .mindmap-wrapper:has(.card-4:hover) .card:not(.card-4),
+    .mindmap-wrapper:has(.card-5:hover) .card:not(.card-5) {
+      filter: blur(2px) opacity(0.35); /* "fade and blur (dont blur too much)" */
+      transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    .mindmap-wrapper:has(.card:hover) .center-card {
+      filter: blur(2px) brightness(0.6);
+    }
+
+    .mindmap-wrapper:has(.card-1:hover) .line:not(.line-1),
+    .mindmap-wrapper:has(.card-2:hover) .line:not(.line-2),
+    .mindmap-wrapper:has(.card-3:hover) .line:not(.line-3),
+    .mindmap-wrapper:has(.card-4:hover) .line:not(.line-4),
+    .mindmap-wrapper:has(.card-5:hover) .line:not(.line-5) {
+      opacity: 0.15;
+    }
+
+    /* Glow Effect on Hovered Card */
+    .card:hover {
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 25px rgba(0, 170, 255, 0.4), inset 0 0 15px rgba(0, 170, 255, 0.15);
+      transform: translate(-50%, -50%) scale(1.05); /* Cyberpunk pop slightly off the grid */
+      z-index: 10;
+    }
+
+    .card:hover h3 {
+      color: var(--neon-blue);
+      text-shadow: 0 0 12px rgba(0, 170, 255, 0.8);
+    }
+    
+    .card:hover p {
+      color: #fff;
+    }
+
+    /* Neon Path Stroke & Drop Shadow for specific lines depending on which card is hovered */
+    .mindmap-wrapper:has(.card-1:hover) .line-1,
+    .mindmap-wrapper:has(.card-2:hover) .line-2,
+    .mindmap-wrapper:has(.card-3:hover) .line-3,
+    .mindmap-wrapper:has(.card-4:hover) .line-4,
+    .mindmap-wrapper:has(.card-5:hover) .line-5 {
+      stroke: var(--neon-blue);
+      /* drop-shadow + stroke highlight */
+      filter: drop-shadow(0 0 10px var(--neon-blue));
+      stroke-width: 5px;
+      z-index: 5;
+    }
+
+    /* Optional interaction if user hovers the center card directly */
+    .mindmap-wrapper:has(.center-card:hover) .line {
+      stroke: var(--neon-blue);
+      filter: drop-shadow(0 0 6px rgba(0, 170, 255, 0.6));
+      opacity: 0.8;
+    }
+    
+    .mindmap-wrapper:has(.center-card:hover) .card {
+      border-color: rgba(0, 170, 255, 0.5);
+      box-shadow: 0 0 15px rgba(0, 170, 255, 0.15);
+    }
+    
+    .center-card:hover {
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 45px rgba(0, 170, 255, 0.5), inset 0 0 25px rgba(0, 170, 255, 0.2);
+      transform: translate(-50%, -50%) scale(1.02);
+    }
+    
+    .center-card:hover h1 {
+      color: var(--neon-blue);
+      text-shadow: 0 0 15px rgba(0, 170, 255, 0.6);
+    }
+
+  </style>
+</head>
+<body>
+
+  <section class="mindmap-section">
+    <div class="mindmap-wrapper">
+      
+      <!-- SVG Drawing connecting paths - Box matches CSS aspect ratio coordinates explicitly -->
+      <svg class="connections" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+        
+        <!-- Top Center Node Path -->
+        <path class="line line-1" d="M 600 350 L 600 120" />
+        
+        <!-- Mid Right Node Path -->
+        <path class="line line-2" d="M 680 400 C 820 400, 820 320, 1020 320" />
+        
+        <!-- Bottom Right Node Path -->
+        <path class="line line-3" d="M 680 400 C 820 400, 820 640, 900 640" />
+        
+        <!-- Bottom Left Node Path -->
+        <path class="line line-4" d="M 520 400 C 380 400, 380 640, 300 640" />
+        
+        <!-- Mid Left Node Path -->
+        <path class="line line-5" d="M 520 400 C 380 400, 380 320, 180 320" />
+      </svg>
+
+      <!-- Center Master Node -->
+      <div class="center-card">
+        <h1>Why Join<br>IEEE</h1>
+      </div>
+
+      <!-- Feature Connect Node 1 (Top Center) matches SVG endpoint (600, 120) @ 50%, 15% -->
+      <div class="card card-1" style="left: 50%; top: 15%;">
+        <h3>Global Network</h3>
+        <p>Connect with over 400,000 tech professionals across 160 countries.</p>
+      </div>
+
+      <!-- Feature Connect Node 2 (Mid Right) matches SVG endpoint (1020, 320) @ 85%, 40% -->
+      <div class="card card-2" style="left: 85%; top: 40%;">
+        <h3>Research Access</h3>
+        <p>Unlock the world's largest technical library and leading journals.</p>
+      </div>
+
+      <!-- Feature Connect Node 3 (Bottom Right) matches SVG endpoint (900, 640) @ 75%, 80% -->
+      <div class="card card-3" style="left: 75%; top: 80%;">
+        <h3>Premier Events</h3>
+        <p>Attend and present at top-tier technical conferences and symposiums.</p>
+      </div>
+
+      <!-- Feature Connect Node 4 (Bottom Left) matches SVG endpoint (300, 640) @ 25%, 80% -->
+      <div class="card card-4" style="left: 25%; top: 80%;">
+        <h3>Career Growth</h3>
+        <p>Gain mentorship, career resources, and exclusive tech job opportunities.</p>
+      </div>
+
+      <!-- Feature Connect Node 5 (Mid Left) matches SVG endpoint (180, 320) @ 15%, 40% -->
+      <div class="card card-5" style="left: 15%; top: 40%;">
+        <h3>Global Standards</h3>
+        <p>Shape the future of technology by contributing to global frameworks.</p>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>
