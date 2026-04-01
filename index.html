@@ -152,8 +152,13 @@
     .mindmap-wrapper:has(.card-2:hover) .line:not(.line-2),
     .mindmap-wrapper:has(.card-3:hover) .line:not(.line-3),
     .mindmap-wrapper:has(.card-4:hover) .line:not(.line-4),
-    .mindmap-wrapper:has(.card-5:hover) .line:not(.line-5) {
-      opacity: 0.15;
+    .mindmap-wrapper:has(.card-5:hover) .line:not(.line-5),
+    .mindmap-wrapper:has(.card-1:hover) .pulse:not(.pulse-1),
+    .mindmap-wrapper:has(.card-2:hover) .pulse:not(.pulse-2),
+    .mindmap-wrapper:has(.card-3:hover) .pulse:not(.pulse-3),
+    .mindmap-wrapper:has(.card-4:hover) .pulse:not(.pulse-4),
+    .mindmap-wrapper:has(.card-5:hover) .pulse:not(.pulse-5) {
+      opacity: 0;
     }
 
     /* Glow Effect on Hovered Card */
@@ -173,20 +178,25 @@
       color: #fff;
     }
 
-    @keyframes flowCurrent {
-      from { stroke-dashoffset: 40; }
-      to { stroke-dashoffset: 0; }
+    @keyframes flowPulse {
+      from { stroke-dashoffset: 80; }
+      to { stroke-dashoffset: -720; }
     }
 
     .pulse {
       fill: none;
-      stroke: transparent;
+      stroke: var(--neon-hover);
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+      stroke-dasharray: 80 720;
+      animation: flowPulse 2.5s linear infinite;
       stroke-width: 5px;
       pointer-events: none;
       stroke-linecap: round;
+      z-index: 6;
+      transition: all 0.4s ease;
     }
 
-    /* Base continuous line glow on hover */
+    /* Brighter Base continuous line glow on hover */
     .mindmap-wrapper:has(.card-1:hover) .line-1,
     .mindmap-wrapper:has(.card-2:hover) .line-2,
     .mindmap-wrapper:has(.card-3:hover) .line-3,
@@ -198,41 +208,14 @@
       z-index: 5;
     }
 
-    /* Simulated Flowing Current over the continuous line */
+    /* Brighter Flowing Current on specific card hover */
     .mindmap-wrapper:has(.card-1:hover) .pulse-1,
     .mindmap-wrapper:has(.card-2:hover) .pulse-2,
     .mindmap-wrapper:has(.card-3:hover) .pulse-3,
     .mindmap-wrapper:has(.card-4:hover) .pulse-4,
     .mindmap-wrapper:has(.card-5:hover) .pulse-5 {
-      stroke: var(--neon-hover);
-      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
-      stroke-dasharray: 15 25; /* Dense energetic flow */
-      animation: flowCurrent 0.5s linear infinite;
-      z-index: 6;
-    }
-
-    /* Optional interaction if user hovers the center card directly */
-    .mindmap-wrapper:has(.center-card:hover) .line {
-      stroke: rgba(255, 255, 255, 0.3);
-      filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
-    }
-
-    .mindmap-wrapper:has(.center-card:hover) .pulse {
-      stroke: var(--neon-hover);
-      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
-      stroke-dasharray: 15 25;
-      animation: flowCurrent 0.8s linear infinite;
-    }
-    
-    .mindmap-wrapper:has(.center-card:hover) .card {
-      border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-    }
-    
-    .center-card:hover {
-      border-color: var(--neon-hover);
-      box-shadow: 0 0 25px rgba(255, 255, 255, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
-      transform: translate(-50%, -50%) scale(1.02);
+      filter: drop-shadow(0 0 12px rgba(255, 255, 255, 1));
+      stroke-width: 6px;
     }
     
     .center-card:hover h1 {
@@ -251,24 +234,24 @@
       <svg class="connections" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
         
         <!-- Top Center Node Path -->
-        <path class="line line-1" d="M 600 350 L 600 120" />
-        <path class="pulse pulse-1" d="M 600 350 L 600 120" />
+        <path class="line line-1" d="M 600 350 L 600 200" />
+        <path class="pulse pulse-1" d="M 600 350 L 600 200" />
         
         <!-- Mid Right Node Path -->
-        <path class="line line-2" d="M 680 400 C 820 400, 820 320, 1020 320" />
-        <path class="pulse pulse-2" d="M 680 400 C 820 400, 820 320, 1020 320" />
+        <path class="line line-2" d="M 680 400 L 800 400 L 800 320 L 895 320" stroke-linejoin="miter" />
+        <path class="pulse pulse-2" d="M 680 400 L 800 400 L 800 320 L 895 320" stroke-linejoin="miter" />
         
         <!-- Bottom Right Node Path -->
-        <path class="line line-3" d="M 680 400 C 820 400, 820 640, 900 640" />
-        <path class="pulse pulse-3" d="M 680 400 C 820 400, 820 640, 900 640" />
+        <path class="line line-3" d="M 680 400 L 800 400 L 800 560" stroke-linejoin="miter" />
+        <path class="pulse pulse-3" d="M 680 400 L 800 400 L 800 560" stroke-linejoin="miter" />
         
         <!-- Bottom Left Node Path -->
-        <path class="line line-4" d="M 520 400 C 380 400, 380 640, 300 640" />
-        <path class="pulse pulse-4" d="M 520 400 C 380 400, 380 640, 300 640" />
+        <path class="line line-4" d="M 520 400 L 400 400 L 400 560" stroke-linejoin="miter" />
+        <path class="pulse pulse-4" d="M 520 400 L 400 400 L 400 560" stroke-linejoin="miter" />
         
         <!-- Mid Left Node Path -->
-        <path class="line line-5" d="M 520 400 C 380 400, 380 320, 180 320" />
-        <path class="pulse pulse-5" d="M 520 400 C 380 400, 380 320, 180 320" />
+        <path class="line line-5" d="M 520 400 L 400 400 L 400 320 L 305 320" stroke-linejoin="miter" />
+        <path class="pulse pulse-5" d="M 520 400 L 400 400 L 400 320 L 305 320" stroke-linejoin="miter" />
       </svg>
 
       <!-- Center Master Node -->
